@@ -10,14 +10,14 @@ import 'package:product/models/state.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
-class CounterPage extends StatefulWidget {
-  const CounterPage({super.key});
+class ZarlagaPage extends StatefulWidget {
+  const ZarlagaPage({super.key});
 
   @override
-  State<CounterPage> createState() => _CounterPageState();
+  State<ZarlagaPage> createState() => _ZarlagaPageState();
 }
 
-class _CounterPageState extends State<CounterPage> with Api {
+class _ZarlagaPageState extends State<ZarlagaPage> with Api {
   ProductModel? product;
   var barController = TextEditingController();
   int count = 1;
@@ -28,7 +28,7 @@ class _CounterPageState extends State<CounterPage> with Api {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Орлого"),
+        title: const Text("Зарлага"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -163,7 +163,7 @@ class _CounterPageState extends State<CounterPage> with Api {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   return;
                 }
-                if (count < 1) {
+                if (0 - count >= 0) {
                   var snackBar = const SnackBar(
                       content: Text("Бүтээндэхүүн ны тоо 0 ээс их байна"));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -179,9 +179,9 @@ class _CounterPageState extends State<CounterPage> with Api {
                     body: BranchHaveProduct(
                       userId: state.user!.id,
                       branchId: state.currentBranch!.id,
-                      pcount: count,
+                      pcount: 0 - count,
                       productId: product!.id,
-                      regType: "Oрлого",
+                      regType: "Зарлага",
                     ).toJson(),
                   ),
                 );
@@ -193,7 +193,7 @@ class _CounterPageState extends State<CounterPage> with Api {
                   context.pop();
                 }
               },
-              child: const Text('Орлого бүртгэх'),
+              child: const Text('Зарлага бүртгэх'),
             ),
           ],
         ),

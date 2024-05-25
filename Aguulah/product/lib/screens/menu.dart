@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:product/api.dart';
-import 'package:product/models/branch.dart';
 import 'package:product/models/product.dart';
 import 'package:product/models/state.dart';
 import 'package:provider/provider.dart';
@@ -25,24 +25,12 @@ class MenuPage extends StatelessWidget with Api {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
-          future: Future.wait([
-            fetch<List<ProductModel>>(
-              '/admin/products',
-              decoder: (data) => data == null
-                  ? []
-                  : (data as List)
-                      .map((v) => ProductModel.fromJson(v))
-                      .toList(),
-            ),
-            fetch(
-              '/admin/branches',
-              decoder: (data) => data == null
-                  ? []
-                  : (data as List)
-                      .map<BranchModel>((v) => BranchModel.fromJson(v))
-                      .toList(),
-            )
-          ]),
+          future: fetch<List<ProductModel>>(
+            '/admin/products',
+            decoder: (data) => data == null
+                ? []
+                : (data as List).map((v) => ProductModel.fromJson(v)).toList(),
+          ),
           builder: (context, sn) {
             if (sn.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -73,26 +61,43 @@ class MenuPage extends StatelessWidget with Api {
                 ],
               );
             }
-            state.addProductAll(sn.data![0] as List<ProductModel>);
+            state.addProductAll(sn.data as List<ProductModel>);
             return Column(
               children: [
+                Text(state.currentBranch?.name ?? ''),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () => context.go('/uldegdel'),
+                      child: const Text('Барааны үлдэгдэл')),
+                ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () => context.go('/counter'),
-                      child: const Text('ТООЛЛОГО ХИЙХ')),
+                      child: const Text('Орлого хийх')),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () => context.go('/zarlaga'),
+                      child: const Text('Зарлага хийх')),
                 ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () => context.go('/products'),
-                      child: const Text('Барааны мэдээлэл')),
+                      child: const Text('Орлого&Зарлага түүх')),
                 ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Агуулахын үлдэгдэл')),
+                      onPressed: () async {
+                        await GetStorage().write('TOKEN', null);
+                        GetStorage().save();
+                        context.pushReplacement('/');
+                      },
+                      child: const Text('Системээс гарах')),
                 )
               ],
             );

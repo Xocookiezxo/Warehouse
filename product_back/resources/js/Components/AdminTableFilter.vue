@@ -9,7 +9,7 @@
           </div>
         </td>
         <td v-else :key="i">
-          <MySelect v-model="model[h.key]" class="min-w-[100px] p-0 text-sm" :url="h.url" @changeId="(id) => (model[h.order] = id)" />
+          <MySelect :value="model[h.key]" class="min-w-[100px] p-0 text-sm" :url="h.url" @changeId="(id) => (model[h.order] = id)" />
         </td>
       </template>
     </tr>

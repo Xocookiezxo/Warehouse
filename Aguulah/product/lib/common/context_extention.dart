@@ -139,3 +139,9 @@ extension ContextExtensionss on BuildContext {
     }
   }
 }
+
+extension DateTimeExtensionss on DateTime {
+  /// The same of [MediaQuery.of(context).size]
+  String toShortString() =>
+      "$year-${month.toString().padLeft(2, "0")}-${day.toString().padLeft(2, "0")} ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}:${second.toString().padLeft(2, '0')}";
+}

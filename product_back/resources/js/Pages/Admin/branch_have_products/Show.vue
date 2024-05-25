@@ -32,6 +32,7 @@ const fields = [
   { label: 'тоо', value: props.data.pcount },
   { label: 'Зарлага эсэх', value: props.data.reg_type },
   { label: 'user_id', value: props.data?.user?.name ?? '' },
+  { label: 'Тайлбар', value: props.data.description },
   { label: 'created_at', value: props.data.created_at },
   { label: 'updated_at', value: props.data.updated_at }
 ]

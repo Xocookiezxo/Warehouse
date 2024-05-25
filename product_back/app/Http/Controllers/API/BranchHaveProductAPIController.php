@@ -6,6 +6,7 @@ namespace App\Http\Controllers\API;
 use App\Models\BranchHaveProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use DB;
 use Response;
 
 /**
@@ -23,7 +24,7 @@ class BranchHaveProductAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $query = BranchHaveProduct::filter( $request->all(["search", ...BranchHaveProduct::$searchIn]))->with('branch:id,name')->with('product:id,name')->with('user:id,name');
+        $query = BranchHaveProduct::filter($request->all(["search", ...BranchHaveProduct::$searchIn]))->with('branch:id,name')->with('product:id,name,price,barcode')->with('user:id,name');
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
@@ -31,7 +32,7 @@ class BranchHaveProductAPIController extends AppBaseController
         if ($request->get('limit')) {
             $query->limit($request->get('limit'));
         }
-
+        $query->orderByDesc('created_at');
         $branchHaveProducts = $query->get();
 
         return $branchHaveProducts->toJson();
@@ -46,6 +47,21 @@ class BranchHaveProductAPIController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->validate(BranchHaveProduct::$rules);
+
+        $branch = $input['branch_id'];
+        $product = $input['product_id'];
+
+        if ($input['reg_type'] == "Зарлага") {
+            $status_infos = DB::scalar(" select sum(r.pcount)   cnt
+            from branche_have_products r
+            inner join branches b on b.id = r.branch_id
+            inner join products p on p.id= r.product_id
+            where r.branch_id =$branch and p.id =$product
+            group by p.barcode");
+            if ($status_infos + $input['pcount'] < 0) {
+                return $this->sendError("Агуулахын үлэгдэл хүрэхгүй байна. Агуулахад:$status_infos ", 422);
+            }
+        }
 
         /** @var BranchHaveProduct $branchHaveProduct */
         $branchHaveProduct = BranchHaveProduct::create($input);

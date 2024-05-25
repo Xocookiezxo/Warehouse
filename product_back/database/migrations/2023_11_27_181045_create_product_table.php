@@ -60,6 +60,7 @@ return new class extends Migration
             $table->integer('pcount')->comment('тоо');
             $table->string('reg_type')->comment('Зарлага эсэх');
             $table->foreignId('user_id')->constrained('users')->comment("Бүтээгдэхүүн");
+            $table->text('description')->nullable()->comment('Тайлбар');
             $table->timestamps();
         });
     }

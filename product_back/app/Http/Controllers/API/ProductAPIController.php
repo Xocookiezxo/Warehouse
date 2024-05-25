@@ -6,6 +6,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use DB;
 use Response;
 
 /**
@@ -23,7 +24,7 @@ class ProductAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $query = Product::filter( $request->all(["search", ...Product::$searchIn]))->with('product_category:id,name')->with('provider:id,name');
+        $query = Product::filter($request->all(["search", ...Product::$searchIn]))->with('product_category:id,name')->with('provider:id,name');
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));
@@ -31,12 +32,32 @@ class ProductAPIController extends AppBaseController
         if ($request->get('limit')) {
             $query->limit($request->get('limit'));
         }
-
+        $query->orderByDesc("created_at");
         $products = $query->get();
 
         return $products->toJson();
     }
+    public function uldegdel(Request $request, $branch_id)
+    {
 
+
+        $where = " WHERE 1=1 ";
+        if ($branch_id)
+            $where .= "  AND   r.branch_id = '" . $branch_id . "' ";
+
+
+        $status_infos = DB::select(" select 
+                                    p.id,b.name branch_name,p.name product_name,p.barcode,p.price,sum(r.pcount)   cnt
+                                    from branche_have_products r
+                                    inner join branches b on b.id = r.branch_id
+                                    inner join products p on p.id= r.product_id
+                        $where
+                        group by  p.id, b.name,p.name,p.price,p.barcode");
+
+
+
+        return $status_infos;
+    }
     /**
      * Store a newly created Product in storage.
      * POST /products

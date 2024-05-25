@@ -27,6 +27,7 @@ class BranchHaveProductFactory extends Factory
         'pcount' => $this->faker->randomDigitNotNull,
         'reg_type' => $this->faker->word,
         'user_id' => $this->faker->word,
+        'description' => $this->faker->text,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

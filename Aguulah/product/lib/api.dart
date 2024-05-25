@@ -91,7 +91,7 @@ mixin Api {
       if (body is Map<String, dynamic> && body.containsKey('message')) {
         text = body['message'];
       }
-      throw ValidationException(text, body['errors']);
+      throw ValidationException(text, body['errors'] ?? {});
     } else {
       if (kDebugMode) {
         print(res.reasonPhrase);

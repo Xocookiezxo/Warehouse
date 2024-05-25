@@ -1,30 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:product/api.dart';
-import 'package:product/models/branch_have_product.dart';
 import 'package:product/models/product.dart';
 import 'package:product/models/state.dart';
 import 'package:provider/provider.dart';
-import 'package:product/common/context_extention.dart';
 
-class ProductPage extends StatelessWidget with Api {
-  const ProductPage({super.key});
+class ProductUldegdel {
+  int? id;
+  String? branchName;
+  String? productName;
+  String? barcode;
+  String? price;
+  String? cnt;
+
+  ProductUldegdel(
+      {this.id,
+      this.branchName,
+      this.productName,
+      this.barcode,
+      this.price,
+      this.cnt});
+
+  ProductUldegdel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    branchName = json['branch_name'];
+    productName = json['product_name'];
+    barcode = json['barcode'];
+    price = json['price'];
+    cnt = json['cnt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['branch_name'] = this.branchName;
+    data['product_name'] = this.productName;
+    data['barcode'] = this.barcode;
+    data['price'] = this.price;
+    data['cnt'] = this.cnt;
+    return data;
+  }
+}
+
+class UldegdelPage extends StatelessWidget with Api {
+  const UldegdelPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     var state = context.read<StateModel>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Орлого зарлагын түүх',
+        title: Text('Дансны үлдэгдэл',
             style: Theme.of(context).textTheme.displayLarge),
       ),
       body: FutureBuilder(
-        future: fetch<List<BranchHaveProduct>>(
-          '/admin/branch_have_products?branch_id=${state.currentBranch!.id}',
+        future: fetch<List<ProductUldegdel>>(
+          '/admin/uldegdel/${state.currentBranch!.id}',
           decoder: (data) => data == null
               ? []
-              : (data as List)
-                  .map((v) => BranchHaveProduct.fromJson(v))
-                  .toList(),
+              : (data as List).map((v) => ProductUldegdel.fromJson(v)).toList(),
         ),
         builder: (context, sn) {
           if (sn.connectionState == ConnectionState.waiting) {
@@ -56,7 +89,7 @@ class ProductPage extends StatelessWidget with Api {
               ],
             );
           }
-          var result = sn.data as List<BranchHaveProduct>;
+          var result = sn.data as List<ProductUldegdel>;
           return ListView.builder(
             itemCount: result.length,
             itemBuilder: (context, index) {
@@ -64,27 +97,19 @@ class ProductPage extends StatelessWidget with Api {
                 onTap: () {
                   Navigator.of(context).pushNamed('routeName');
                 },
-                title: Text(result[index].product?.name ?? ''),
+                title: Text(result[index].productName ?? ''),
                 subtitle: Wrap(
                   spacing: 8,
                   children: [
-                    Text("Баркод: ${result[index].product?.barcode ?? ''}",
-                        style: const TextStyle(fontSize: 8)),
-                    Text(
-                        "Үнэ:${result[index].product?.price?.toString() ?? ''}",
-                        style: const TextStyle(fontSize: 8)),
-                    Text(result[index].createdAt?.toShortString() ?? '',
-                        style: const TextStyle(fontSize: 8))
+                    Text("Баркод: ${result[index].barcode ?? ''}"),
+                    Text("Үнэ:${result[index].price?.toString() ?? ''}"),
                   ],
                 ),
-                trailing: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("${result[index].regType ?? ""} ",
-                          style: const TextStyle(fontSize: 8)),
-                      Text(result[index].pcount?.toString() ?? ''),
-                    ]),
+                trailing: Column(
+                  children: [
+                    Text(result[index].cnt?.toString() ?? ''),
+                  ],
+                ),
               );
             },
           );

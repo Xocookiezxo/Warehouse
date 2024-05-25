@@ -47,7 +47,8 @@ const headers = [
   { key: 'product.name', name: 'product_id', order: 'product_id', url:'/admin/products' },
   { key: 'pcount', name: 'тоо', order: 'pcount' },
   { key: 'reg_type', name: 'Зарлага эсэх', order: 'reg_type' },
-  { key: 'user.name', name: 'user_id', order: 'user_id', url:'/admin/users' }
+  { key: 'user.name', name: 'user_id', order: 'user_id', url:'/admin/users' },
+  { key: 'description', name: 'Тайлбар', order: 'description' }
 ]
 
 const form = useForm({ model: { ...props.filters, per_page: props.datas.per_page } })

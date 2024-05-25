@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class ProductModel {
   int? id;
   String? name;
@@ -8,8 +6,8 @@ class ProductModel {
   double? price;
   int? productCategoryId;
   String? description;
-  String? createdAt;
-  String? updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   NameModel? productCategory;
   NameModel? provider;
 
@@ -34,8 +32,13 @@ class ProductModel {
     price = json['price'] != null ? double.tryParse(json['price']) : 0;
     productCategoryId = json['product_category_id'];
     description = json['description'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    createdAt = (json["created_at"] is DateTime?)
+        ? json["created_at"]
+        : DateTime.tryParse(json["created_at"]);
+    updatedAt = (json["updated_at"] is DateTime?)
+        ? json["updated_at"]
+        : DateTime.tryParse(json["updated_at"]);
+
     productCategory = json['product_category'] != null
         ? NameModel.fromJson(json['product_category'])
         : null;
@@ -52,8 +55,8 @@ class ProductModel {
     data['price'] = price;
     data['product_category_id'] = productCategoryId;
     data['description'] = description;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    data['created_at'] = createdAt?.toIso8601String();
+    data['updated_at'] = createdAt?.toIso8601String();
     if (productCategory != null) {
       data['product_category'] = productCategory!.toJson();
     }
