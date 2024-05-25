@@ -1,0 +1,48 @@
+html {
+    font-size: 12px;
+}
+
+body {
+    @apply text-gray-900 bg-gray-100 dark:text-white;
+}
+
+@layer base {
+    :root {
+        --color-text-base: #171717;
+        --color-fill: #ffffff;
+        --color-icon-fill: #1d4ed8;
+        --color-text-icon: #ffffff;
+    }
+    /* width */
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
+
+.form-error {
+    @apply border-error-500 focus:ring-error-500 focus:ring-opacity-50 focus:border-error-500;
+}
+
+h1{
+    @apply mb-8 text-xl font-bold
+}
+
+.p-show{
+    @apply p-6 bg-white rounded shadow
+}

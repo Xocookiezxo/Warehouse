@@ -1,0 +1,27 @@
+@import "tailwindcss/base";
+@import "./base.css";
+@import "./ti/themify.css";
+
+@import "tailwindcss/components";
+/* @import "./custom-components.css"; */
+@import "./windplus/button.css";
+@import "./windplus/card.css";
+@import "./windplus/form.css";
+@import "./windplus/alert.css";
+@import "./windplus/list-group.css";
+@import "./windplus/timeline.css";
+@import "./windplus/nav.css";
+@import "./windplus/breadcrumb.css";
+@import "./windplus/accordion.css";
+@import "./windplus/dropdown.css";
+@import "./windplus/badge.css";
+@import "./windplus/button-group.css";
+@import "./windplus/modal.css";
+@import "./windplus/navbar.css";
+@import "./windplus/table.css";
+@import "./windplus/nav-drawer.css";
+@import "./windplus/input-group.css";
+@import "./windplus/hyperlink.css";
+
+@import "tailwindcss/utilities";
+/* @import "./custom-utilities.css"; */

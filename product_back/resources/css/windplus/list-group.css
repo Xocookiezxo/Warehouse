@@ -1,0 +1,179 @@
+@layer components {
+  .list-group {
+    @apply rounded-md mb-4 list-none;
+  }
+
+  .list-header {
+    @apply text-gray-500 flex gap-1 items-center;
+  }
+
+  .list-group-item-header {
+    @apply bg-gray-100 px-2 py-1.5 text-sm border-b text-gray-500 font-semibold;
+  }
+
+  /* list small variant */
+  .list-group.list-group-sm .list-group-item {
+    @apply text-sm;
+  }
+
+  /* list inline variant */
+  .list-group.list-inline .list-group-item {
+    @apply inline-flex w-auto;
+  }
+
+  /* list tree variant */
+  .list-group.list-tree {
+    @apply border-l rounded-none px-2;
+  }
+
+  /* list item */
+  .list-group-item {
+    @apply list-none appearance-none transition duration-300 flex items-center w-full px-3 py-2 rounded-md text-gray-700;
+  }
+
+  /* list item state */
+
+  .list-group-item:not(:disabled),
+  .list-group-item:not(.disabled),
+  .list-group-item:not(.active) {
+    @apply hover:text-gray-800;
+  }
+
+  .list-group-item:disabled,
+  .list-group-item.disabled,
+  .list-group-item.list-group-item-disabled {
+    @apply text-gray-400 cursor-not-allowed hover:bg-transparent hover:text-gray-400;
+  }
+
+  .list-group-item.active,
+  .list-group-item.list-group-item-active {
+    @apply bg-primary-500 text-white hover:!bg-primary-600 hover:!text-white;
+  }
+
+  /* color variants */
+  .list-group-item-primary,
+  .list-group-item.primary {
+    @apply text-white bg-primary-500 border-primary-500 hover:bg-primary-600 hover:border-primary-500 hover:text-white;
+  }
+
+  .list-group-item-secondary,
+  .list-group-item.secondary {
+    @apply text-white bg-secondary-500 border-secondary-500 hover:bg-secondary-600 hover:border-secondary-500 hover:text-white;
+  }
+
+  .list-group-item-info,
+  .list-group-item.info {
+    @apply text-white bg-info-500 border-info-500 hover:bg-info-600 hover:border-info-500 hover:text-white;
+  }
+
+  .list-group-item-warning,
+  .list-group-item.warning {
+    @apply text-white bg-warning-500 border-warning-500 hover:bg-warning-600 hover:border-warning-500 hover:text-white;
+  }
+
+  .list-group-item-success,
+  .list-group-item.success {
+    @apply text-white bg-success-500 border-success-500 hover:bg-success-600 hover:border-success-500 hover:text-white;
+  }
+
+  .list-group-item-error,
+  .list-group-item.error {
+    @apply text-white bg-error-500 border-error-500 hover:bg-error-600 hover:border-error-500 hover:text-white;
+  }
+
+  a.list-group-item {
+    @apply hover:text-gray-800 no-underline hover:no-underline;
+  }
+
+  .list-hover .list-group-item:not(:disabled):hover,
+  .list-hover .list-group-item:not(.active):hover,
+  .list-hover .list-group-item:not(.list-group-item-active):hover,
+  .list-hover .list-group-item:not(.list-group-item-disabled):hover,
+  .list-hover .list-group-item:not(.disabled):hover {
+    @apply bg-gray-100;
+  }
+
+  /* bordered */
+  .list-bordered {
+    @apply border;
+  }
+
+  .list-bordered .list-group-item {
+    @apply rounded-none;
+  }
+
+  .list-bordered .list-group-item:first-of-type {
+    @apply rounded-t-md;
+  }
+
+  .list-bordered .list-group-item:last-of-type {
+    @apply rounded-b-md;
+  }
+
+  .list-bordered .list-group-item:not(:last-of-type) {
+    @apply border-b;
+  }
+
+  /* flush */
+  .list-flush {
+    @apply border-transparent;
+  }
+
+  .list-flush .list-group-item {
+    @apply rounded-none;
+  }
+
+  .list-flush .list-group-item:not(:last-of-type) {
+    @apply border-b;
+  }
+
+  /* text */
+  .list-text .list-group-item {
+    @apply px-2 py-1;
+  }
+
+  /* size */
+  .list-dense .list-group-item {
+    @apply px-2 py-1;
+  }
+
+  /* media content */
+  .list-group-item-media {
+  }
+
+  .list-group-item-content {
+    @apply flex flex-col flex-grow;
+  }
+
+  .list-group-item-title {
+    @apply font-semibold;
+  }
+
+  .list-group-item-subtitle {
+    @apply text-gray-600 text-sm;
+  }
+
+  .list-group-item-body {
+    @apply text-gray-800;
+  }
+
+  .list-group-item-subheader {
+    @apply text-xs font-normal text-gray-400;
+  }
+
+  .list-group-item-action {
+    @apply flex gap-2 items-center;
+  }
+
+  .list-footer {
+    @apply px-4 py-2;
+  }
+
+  .list-group-item-icon {
+    @apply w-6;
+  }
+
+  .list-child {
+    @apply mb-0;
+  }
+}

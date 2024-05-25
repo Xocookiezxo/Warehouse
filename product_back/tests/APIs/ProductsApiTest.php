@@ -1,0 +1,80 @@
+<?php namespace Tests\APIs;
+
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
+use Tests\ApiTestTrait;
+use App\Models\Products;
+
+class ProductsApiTest extends TestCase
+{
+    use ApiTestTrait, WithoutMiddleware, DatabaseTransactions;
+
+    /**
+     * @test
+     */
+    public function test_create_products()
+    {
+        $products = Products::factory()->make()->toArray();
+
+        $this->response = $this->json(
+            'POST',
+            '/api/admin/products', $products
+        );
+
+        $this->assertApiResponse($products);
+    }
+
+    /**
+     * @test
+     */
+    public function test_read_products()
+    {
+        $products = Products::factory()->create();
+
+        $this->response = $this->json(
+            'GET',
+            '/api/admin/products/'.$products->id
+        );
+
+        $this->assertApiResponse($products->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function test_update_products()
+    {
+        $products = Products::factory()->create();
+        $editedProducts = Products::factory()->make()->toArray();
+
+        $this->response = $this->json(
+            'PUT',
+            '/api/admin/products/'.$products->id,
+            $editedProducts
+        );
+
+        $this->assertApiResponse($editedProducts);
+    }
+
+    /**
+     * @test
+     */
+    public function test_delete_products()
+    {
+        $products = Products::factory()->create();
+
+        $this->response = $this->json(
+            'DELETE',
+             '/api/admin/products/'.$products->id
+         );
+
+        $this->assertApiSuccess();
+        $this->response = $this->json(
+            'GET',
+            '/api/admin/products/'.$products->id
+        );
+
+        $this->response->assertStatus(404);
+    }
+}

@@ -1,0 +1,160 @@
+@layer components {
+    /* button */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 px-4 py-1 font-semibold transition duration-300 border rounded-md appearance-none focus:ring focus:ring-offset-1 focus:ring-opacity-50 focus:outline-none;
+    }
+
+    .btn-default {
+        @apply text-gray-700 border-gray-500 hover:bg-gray-700 hover:border-gray-700 hover:text-white;
+    }
+
+    .btn-primary {
+        @apply text-white bg-primary-500 border-primary-500 hover:bg-primary-700 hover:border-primary-700 hover:text-white focus:ring-primary-300;
+    }
+
+    .btn-secondary {
+        @apply text-white bg-secondary-500 border-secondary-500 hover:bg-secondary-700 hover:border-secondary-700 hover:text-white focus:ring-secondary-300;
+    }
+
+    .btn-info {
+        @apply text-white bg-info-500 border-info-500 hover:bg-info-700 hover:border-info-700 hover:text-white focus:ring-info-300;
+    }
+
+    .btn-warning {
+        @apply text-white bg-warning-500 border-warning-500 hover:bg-warning-700 hover:border-warning-700 hover:text-white focus:ring-warning-300;
+    }
+
+    .btn-success {
+        @apply text-white bg-success-500 border-success-500 hover:bg-success-700 hover:border-success-700 hover:text-white focus:ring-success-300;
+    }
+
+    .btn-error {
+        @apply text-white bg-error-500 border-error-500 hover:bg-error-700 hover:border-error-700 hover:text-white focus:ring-error-300;
+    }
+
+    .btn-dark {
+        @apply text-white bg-gray-800 border-gray-800 hover:bg-gray-900 hover:border-gray-900 hover:text-white focus:ring-gray-300;
+    }
+
+    .btn-rounded {
+        @apply rounded-full;
+    }
+
+    .btn-outlined {
+        @apply bg-transparent;
+    }
+
+    .btn-outlined.btn-default {
+        @apply text-gray-700 border-gray-500 hover:bg-gray-700 hover:border-gray-700 hover:text-white;
+    }
+
+    .btn-outlined.btn-primary {
+        @apply border-primary-500 text-primary-500 hover:bg-primary-700 hover:border-primary-700 hover:text-white;
+    }
+
+    .btn-outlined.btn-secondary {
+        @apply border-secondary-500 text-secondary-500 hover:bg-secondary-700 hover:border-secondary-700 hover:text-white;
+    }
+
+    .btn-outlined.btn-info {
+        @apply border-info-500 text-info-500 hover:bg-info-700 hover:border-info-700 hover:text-white;
+    }
+
+    .btn-outlined.btn-warning {
+        @apply border-warning-500 text-warning-500 hover:bg-warning-700 hover:border-warning-700 hover:text-white;
+    }
+
+    .btn-outlined.btn-success {
+        @apply border-success-500 text-success-500 hover:bg-success-700 hover:border-success-700 hover:text-white;
+    }
+
+    .btn-outlined.btn-error {
+        @apply border-error-500 text-error-500 hover:bg-error-700 hover:border-error-700 hover:text-white;
+    }
+
+    .btn-outlined.btn-dark {
+        @apply text-gray-800 border-gray-800 hover:bg-gray-900 hover:border-gray-900 hover:text-white;
+    }
+
+    .btn-text {
+        @apply bg-transparent border-none hover:bg-transparent;
+    }
+
+    .btn-text.btn-default {
+        @apply text-gray-700 hover:text-gray-700;
+    }
+
+    .btn-text.btn-primary {
+        @apply text-primary-500 hover:text-primary-700;
+    }
+
+    .btn-text.btn-secondary {
+        @apply text-secondary-500 hover:text-secondary-700;
+    }
+
+    .btn-text.btn-info {
+        @apply text-info-500 hover:text-info-700;
+    }
+
+    .btn-text.btn-warning {
+        @apply text-warning-500 hover:text-warning-700;
+    }
+
+    .btn-text.btn-success {
+        @apply text-success-500 hover:text-success-700;
+    }
+
+    .btn-text.btn-error {
+        @apply text-error-500 hover:text-error-700;
+    }
+
+    .btn-text.btn-dark {
+        @apply text-gray-800 hover:text-gray-900;
+    }
+
+    .btn-sm {
+        @apply px-2 py-1 text-sm;
+    }
+
+    .btn-lg {
+        @apply px-6 py-3 text-lg;
+    }
+
+    .btn-block {
+        @apply w-full;
+    }
+
+    .btn-icon {
+        @apply px-1 w-[42px] h-[42px] rounded-full;
+    }
+
+    .btn-icon.btn-sm {
+        @apply w-[30px] h-[30px];
+    }
+
+    .btn-icon.btn-lg {
+        @apply w-[54px] h-[54px];
+    }
+
+    .btn-link {
+        @apply p-0;
+    }
+
+    /* disabled */
+    .btn:disabled,
+    .btn.disabled {
+        @apply text-gray-400 bg-gray-200 border-gray-200 cursor-not-allowed hover:bg-gray-200 hover:text-gray-400 hover:border-gray-200;
+    }
+    .btn.btn-outlined:disabled,
+    .btn.btn-outlined.disabled {
+        @apply text-gray-400 bg-transparent border-gray-200 cursor-not-allowed hover:bg-transparent hover:text-gray-400 hover:border-gray-200;
+    }
+    .btn.btn-text:disabled,
+    .btn.btn-text.disabled {
+        @apply text-gray-400 bg-transparent border-transparent cursor-not-allowed hover:bg-transparent hover:text-gray-400 hover:border-transparent;
+    }
+    .btn.btn-link:disabled,
+    .btn.btn-link.disabled {
+        @apply text-gray-400 bg-transparent border-transparent cursor-not-allowed hover:bg-transparent hover:text-gray-400 hover:border-transparent;
+    }
+}
