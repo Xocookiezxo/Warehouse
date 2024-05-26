@@ -9,11 +9,13 @@ import 'package:product/common/theme.dart';
 import 'package:product/models/branch.dart';
 import 'package:product/models/cart.dart';
 import 'package:product/models/state.dart';
+import 'package:product/models/supply.dart';
 import 'package:product/models/user.dart';
 import 'package:product/screens/counter.dart';
 import 'package:product/screens/login.dart';
 import 'package:product/screens/menu.dart';
 import 'package:product/screens/product.dart';
+import 'package:product/screens/supply.dart';
 import 'package:product/screens/uldegdel.dart';
 import 'package:product/screens/zarlaga.dart';
 import 'package:provider/provider.dart';
@@ -45,9 +47,16 @@ GoRouter router() {
                 builder: (context, state) => const ProductPage(),
                 routes: []),
             GoRoute(
-                path: 'counter',
-                builder: (context, state) => const CounterPage(),
-                routes: []),
+                path: 'supply',
+                builder: (context, state) =>
+                    SupplyPage(sup: state.extra as Supply),
+                routes: [
+                  GoRoute(
+                      path: 'counter',
+                      builder: (context, state) =>
+                          CounterPage(sup: state.extra as Supply),
+                      routes: []),
+                ]),
             GoRoute(
                 path: 'zarlaga',
                 builder: (context, state) => const ZarlagaPage(),
@@ -63,12 +72,12 @@ GoRouter router() {
 
 class Settings with Api {
   UserModel? user;
-  BranchModel? branch;
+
   init() async {
     try {
       user = await fetch('/user',
           decoder: (data) => UserModel.fromMap(data), method: 'get');
-      branch = BranchModel.fromJson(GetStorage().read('current_branch'));
+
       log(user.toString());
     } catch (e) {
       GetStorage().write('TOKEN', null);

@@ -36,3 +36,10 @@ Route::resource('branches', App\Http\Controllers\Admin\BranchController::class);
 
 // BranchHaveProducts
 Route::resource('branch_have_products', App\Http\Controllers\Admin\BranchHaveProductController::class);
+
+
+// Supplies
+Route::resource('supplies', App\Http\Controllers\Admin\SupplyController::class);
+
+// SupplyProducts
+Route::resource('supply_products', App\Http\Controllers\Admin\SupplyProductController::class);

@@ -22,7 +22,10 @@ class UserModelFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word,
+            'register' => $this->faker->word,
+        'ovog' => $this->faker->word,
+        'name' => $this->faker->word,
+        'branch_id' => $this->faker->word,
         'phone' => $this->faker->word,
         'username' => $this->faker->word,
         'password' => $this->faker->word,

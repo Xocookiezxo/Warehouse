@@ -33,7 +33,7 @@ const user = computed(() => usePage().props.auth.user)
         </template>
 
         <template #content>
-          <DropdownLink :href="('/change_password')" method="get" as="button">Нууц үг солих</DropdownLink>
+          <!-- <DropdownLink :href="('/change_password')" method="get" as="button">Нууц үг солих</DropdownLink> -->
 
           <DropdownLink :href="('/logout')" method="post" as="button">Log Out</DropdownLink>
         </template>

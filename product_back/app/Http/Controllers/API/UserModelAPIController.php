@@ -23,7 +23,7 @@ class UserModelAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $query = UserModel::filter( $request->all(["search", ...UserModel::$searchIn]));
+        $query = UserModel::filter( $request->all(["search", ...UserModel::$searchIn]))->with('branch:id,name');
 
         if ($request->get('skip')) {
             $query->skip($request->get('skip'));

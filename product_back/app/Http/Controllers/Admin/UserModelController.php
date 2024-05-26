@@ -19,7 +19,7 @@ class UserModelController extends Controller
      */
     public function index()
     {
-        $userModels = UserModel::filter(Request::all(["search", ...UserModel::$searchIn]))
+        $userModels = UserModel::filter(Request::all(["search", ...UserModel::$searchIn]))->with('branch:id,name')
             ->orderBy(Request::input('orderBy') ?? 'id', Request::input('dir') ?? 'asc');
 
         if (Request::has('only')) {
@@ -54,9 +54,7 @@ class UserModelController extends Controller
         $rule = UserModel::$rules;
         $input =  Request::validate($rule);
         $input['password'] = Hash::make($input['password']);
-
         $userModel = UserModel::create($input);
-
         return redirect(Request::header('back') ?? route('admin.user_models.show', $userModel->getKey()))->with('success', 'Амжилттай үүсгэлээ.');
     }
 
@@ -69,7 +67,7 @@ class UserModelController extends Controller
      */
     public function show(UserModel $userModel)
     {
-        $userModel;
+        $userModel->load('branch:id,name');
         return Inertia::render('Admin/user_models/Show', [
             'data' =>  $userModel,
         ]);
@@ -84,8 +82,7 @@ class UserModelController extends Controller
      */
     public function edit(UserModel $userModel)
     {
-        $userModel;
-
+        $userModel->load('branch:id,name');
         return Inertia::render('Admin/user_models/Edit', [
             'data' =>  $userModel,
         ]);
@@ -102,7 +99,6 @@ class UserModelController extends Controller
     {
         $rule = UserModel::$rules;
         $input =  Request::validate($rule);
-        $input['password'] = Hash::make($input['password']);
         $userModel->update($input);
 
         return redirect(Request::header('back') ?? route('admin.user_models.show', $userModel->getKey()))->with('success', 'Ажилттай хадгаллаа.');

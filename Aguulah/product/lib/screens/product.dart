@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:product/api.dart';
 import 'package:product/models/branch_have_product.dart';
-import 'package:product/models/product.dart';
 import 'package:product/models/state.dart';
 import 'package:provider/provider.dart';
 import 'package:product/common/context_extention.dart';

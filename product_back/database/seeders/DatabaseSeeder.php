@@ -14,6 +14,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductImage;
 use App\Models\Provider;
 use App\Models\SubCategory;
+use App\Models\Supply;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,15 +24,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        \App\Models\User::factory()->create([
-            'name' => 'Админ хэрэглэгч',
-            'username' => 'admin',
-            'phone' => 'hihi',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'roles' => 'admin',
+        Branch::create([
+            'name' => 'Төв агуулах',
+            'address' => 'агуулах',
+            'description' => 'gg'
         ]);
-
         Branch::create([
             'name' => 'Хорооллол салбар',
             'address' => 'Баян гол дүүрэг 3-р хороолол',
@@ -47,6 +44,59 @@ class DatabaseSeeder extends Seeder
             'address' => 'Баянзүрх дүүрэг 2-р хороо',
             'description' => '99369989'
         ]);
+
+        \App\Models\User::factory()->create([
+            'register' => "лл12151215",
+            'name' => 'Админ',
+            'ovog' => 'Админ',
+            'branch_id' => 1,
+            'username' => 'admin',
+            'phone' => '99161212',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'roles' => 'admin',
+        ]);
+        \App\Models\User::factory()->create([
+            'register' => "хй12151214",
+            'name' => 'Менежер',
+            'ovog' => 'Менежер',
+            'branch_id' => 1,
+            'username' => 'manager',
+            'phone' => '88151212',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'roles' => 'manager',
+        ]);
+        \App\Models\User::factory()->create([
+            'register' => "хб12151219",
+            'name' => 'Ажилтан 1',
+            'ovog' => 'Ажилтан 1',
+            'branch_id' => 2,
+            'username' => 'staff1',
+            'phone' => '70651212',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'roles' => 'staff',
+        ]);
+
+        \App\Models\User::factory()->create([
+            'register' => "хб12151220",
+            'name' => 'Ажилтан 2',
+            'ovog' => 'Ажилтан 2',
+            'branch_id' => 2,
+            'username' => 'staff2',
+            'phone' => '70651213',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'roles' => 'staff',
+        ]);
+        \App\Models\User::factory()->create([
+            'register' => "хб12151221",
+            'name' => 'Ажилтан 3',
+            'ovog' => 'Ажилтан 3',
+            'branch_id' => 3,
+            'username' => 'staff3',
+            'phone' => '70651213',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'roles' => 'staff',
+        ]);
+
 
         ProductCategory::create([
             'name' => 'Цамц'
@@ -128,22 +178,26 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         $fake = fake();
+        Supply::create([
+            "name" => "2024-01-01 нийлүүлэлт",
+            "status" => "in progress",
+        ]);
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             BranchHaveProduct::create([
-                'branch_id' =>  $fake->numberBetween(1, 3),
-                'product_id' =>  $fake->numberBetween(1, 50),
-                'pcount' =>  $fake->numberBetween(1, 20),
+                'branch_id' =>  1,
+                'product_id' =>  $i + 1,
+                'pcount' =>  $fake->numberBetween(7, 20),
                 'user_id' => 1,
                 'reg_type' => "Oрлого",
             ]);
         }
 
-        for ($i = 0; $i < 1; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             BranchHaveProduct::create([
-                'branch_id' => $fake->numberBetween(1, 3),
+                'branch_id' => $fake->numberBetween(2, 3),
                 'product_id' =>  $fake->numberBetween(1, 50),
-                'pcount' => -1,
+                'pcount' => -2,
                 'user_id' => 1,
                 'reg_type' => "Зарлага",
             ]);

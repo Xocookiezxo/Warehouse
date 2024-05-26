@@ -11,14 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
-            $table->comment('Салбар');
-            $table->id();
-            $table->string('name', 1000)->comment('Нэр');
-            $table->string('address', 1000)->comment('Хаяг');
-            $table->text('description')->nullable()->comment('Тайлбар');
-            $table->timestamps();
-        });
+
 
 
 
@@ -52,14 +45,34 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('branche_have_products', function (Blueprint $table) {
-            $table->comment('Салбар байгаа бараа бүртээгдэхүүн');
+        Schema::create('supplies', function (Blueprint $table) {
+            $table->comment('Нийлүүлэлт');
             $table->id();
-            $table->foreignId('branch_id')->constrained('branches')->comment("Салбар");
-            $table->foreignId('product_id')->constrained('products')->comment("Бүтээгдэхүүн");
+            $table->string('name')->comment('нийлүүлэлтийн нэр');
+            $table->string('status')->comment('төрөв');
+            $table->text('description')->nullable()->comment('Тайлбар');
+            $table->timestamps();
+        });
+
+        Schema::create('supply_products', function (Blueprint $table) {
+            $table->comment('Нийлүүлэлт бүртээгдэхүүн');
+            $table->id();
+            $table->foreignId('supply_id')->comment("Нийлүүлэлт")->constrained('supplies');
+            $table->foreignId('product_id')->comment("Бүтээгдэхүүн")->constrained('products');
+            $table->integer('expected_count')->comment('тоо');
+            $table->integer('pcount')->nullable()->comment('тоо');
+            $table->text('description')->nullable()->comment('Тайлбар');
+            $table->timestamps();
+        });
+
+        Schema::create('branche_have_products', function (Blueprint $table) {
+            $table->comment('Дансны түүх');
+            $table->id();
+            $table->foreignId('branch_id')->comment("Салбар")->constrained('branches');
+            $table->foreignId('product_id')->comment("Бүтээгдэхүүн")->constrained('products');
             $table->integer('pcount')->comment('тоо');
             $table->string('reg_type')->comment('Зарлага эсэх');
-            $table->foreignId('user_id')->constrained('users')->comment("Бүтээгдэхүүн");
+            $table->foreignId('user_id')->comment("Бүтээгдэхүүн")->constrained('users');
             $table->text('description')->nullable()->comment('Тайлбар');
             $table->timestamps();
         });

@@ -35,117 +35,86 @@ class _MyLoginState extends State<MyLogin> with Api {
   Widget build(BuildContext context) {
     var state = context.read<StateModel>();
     return Scaffold(
-      body: FutureBuilder(
-          future: fetch<List<BranchModel>>(
-            '/admin/branches',
-            decoder: (data) =>
-                (data as List).map((v) => BranchModel.fromJson(v)).toList(),
-          ),
-          builder: (context, sn) {
-            if (sn.connectionState != ConnectionState.done) {
-              return const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                        semanticsLabel: "Мэдээлэл шинэчилж байна"),
-                    Text("Мэдээлэл шинэчилж байна"),
-                  ],
-                ),
-              );
-            }
-            if (sn.hasError) {
-              return Column(
-                children: [
-                  const Text("Ямар нэг зүйл буруул байна даа"),
-                  Text(sn.error.toString())
-                ],
-              );
-            }
-
-            List<BranchModel> branchs = sn.data ?? [];
-            state.branches = branchs;
-            return Center(
-              child: Container(
-                padding: const EdgeInsets.all(80.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Нэвтрэх',
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Нэвтрэх нэр',
-                      ),
-                      onChanged: (value) {
-                        formData.username = value;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Нууц үг',
-                      ),
-                      obscureText: true,
-                      onChanged: (value) {
-                        formData.password = value;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    DropdownButtonFormField(
-                      items: [
-                        ...branchs.map(
-                          (element) => DropdownMenuItem(
-                            value: element,
-                            child: Text(element.name?.toString() ?? ''),
-                          ),
-                        )
-                      ],
-                      onChanged: (value) {
-                        state.setCurrentBranch(value!);
-                      },
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (state.currentBranch == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Салбар сонгоогүй байна")));
-                          return;
-                        }
-
-                        var user = await futureAlertDialog(
-                          context: context,
-                          autoCloseSec: 0,
-                          futureStream: fetch(
-                            '/login',
-                            decoder: (data) => UserModel.fromMap(data),
-                            method: 'POST',
-                            body: formData.toMap(),
-                          ),
-                        );
-                        if (user != null) {
-                          await GetStorage().write('TOKEN', user.token);
-
-                          state.user = user;
-                          context.pushReplacement('/');
-                          GetStorage().save();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurpleAccent,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text('Нэвтрэх'),
-                    )
-                  ],
-                ),
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(80.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Нэвтрэх',
+                style: Theme.of(context).textTheme.displayLarge,
               ),
-            );
-          }),
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Нэвтрэх нэр',
+                ),
+                onChanged: (value) {
+                  formData.username = value;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Нууц үг',
+                ),
+                obscureText: true,
+                onChanged: (value) {
+                  formData.password = value;
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              // DropdownButtonFormField(
+              //   items: [
+              //     ...branchs.map(
+              //       (element) => DropdownMenuItem(
+              //         value: element,
+              //         child: Text(element.name?.toString() ?? ''),
+              //       ),
+              //     )
+              //   ],
+              //   onChanged: (value) {
+              //     state.setCurrentBranch(value!);
+              //   },
+              // ),
+              ElevatedButton(
+                onPressed: () async {
+                  // if (state.currentBranch == null) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //       const SnackBar(
+                  //           content: Text("Салбар сонгоогүй байна")));
+                  //   return;
+                  // }
+
+                  var user = await futureAlertDialog(
+                    context: context,
+                    autoCloseSec: 0,
+                    futureStream: fetch(
+                      '/login',
+                      decoder: (data) => UserModel.fromMap(data),
+                      method: 'POST',
+                      body: formData.toMap(),
+                    ),
+                  );
+                  if (user != null) {
+                    await GetStorage().write('TOKEN', user.token);
+
+                    state.user = user;
+                    context.pushReplacement('/');
+                    GetStorage().save();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Нэвтрэх'),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

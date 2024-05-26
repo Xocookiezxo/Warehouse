@@ -27,16 +27,18 @@ const title = 'User Models дэлгэрэнгүй'
 
 const fields = [
   { label: 'id', value: props.data.id },
+  { label: 'Регистр', value: props.data.register },
+  { label: 'Овог', value: props.data.ovog },
   { label: 'Нэр', value: props.data.name },
+  { label: 'Салбар', value: props.data?.branch?.name ?? '' },
   { label: 'Утас', value: props.data.phone },
-  { label: 'Нэр', value: props.data.username },
+  { label: 'Нэвтрэх нэр', value: props.data.username },
   { label: 'Нууц үг', value: props.data.password },
   { label: 'Эрхийн түвшин', value: props.data.roles },
-  { label: 'remember_token', value: props.data.remember_token },
-  { label: 'push_token', value: props.data.push_token },
+
   { label: 'created_at', value: props.data.created_at },
   { label: 'updated_at', value: props.data.updated_at },
-  { label: 'deleted_at', value: props.data.deleted_at }
+
 ]
 
 </script>

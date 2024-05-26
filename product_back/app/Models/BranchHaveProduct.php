@@ -9,18 +9,38 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class BranchHaveProduct
+ *
  * @package App\Models
  * @version May 25, 2024, 6:09 pm UTC
- *
  * @property \App\Models\Branch $branch
  * @property \App\Models\Product $product
  * @property \App\Models\User $user
- * @property integer $branch_id 
- * @property integer $product_id 
+ * @property integer $branch_id
+ * @property integer $product_id
  * @property integer $pcount тоо
  * @property string $reg_type Зарлага эсэх
- * @property integer $user_id 
+ * @property integer $user_id
  * @property string $description Тайлбар
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\BranchHaveProductFactory factory($count = null, $state = [])
+ * @method static Builder|BranchHaveProduct filter(array $filters)
+ * @method static Builder|BranchHaveProduct newModelQuery()
+ * @method static Builder|BranchHaveProduct newQuery()
+ * @method static Builder|BranchHaveProduct query()
+ * @method static Builder|BranchHaveProduct whereBranchId($value)
+ * @method static Builder|BranchHaveProduct whereCreatedAt($value)
+ * @method static Builder|BranchHaveProduct whereDescription($value)
+ * @method static Builder|BranchHaveProduct whereId($value)
+ * @method static Builder|BranchHaveProduct wherePcount($value)
+ * @method static Builder|BranchHaveProduct whereProductId($value)
+ * @method static Builder|BranchHaveProduct whereRegType($value)
+ * @method static Builder|BranchHaveProduct whereUpdatedAt($value)
+ * @method static Builder|BranchHaveProduct whereUserId($value)
+ * @property int $supply_id Нийлүүлэлт
+ * @method static Builder|BranchHaveProduct whereSupplyId($value)
+ * @mixin \Eloquent
  */
 class BranchHaveProduct extends Model
 {

@@ -1,35 +1,47 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:product/api.dart';
 import 'package:product/models/product.dart';
 import 'package:product/models/state.dart';
+import 'package:product/models/supply.dart';
 import 'package:provider/provider.dart';
 
-class MenuPage extends StatelessWidget with Api {
+class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
 
   @override
+  State<MenuPage> createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> with Api {
+  @override
   Widget build(BuildContext context) {
     var state = context.read<StateModel>();
-    var gg = fetch<List<ProductModel>>(
-      '/admin/products',
-      decoder: (data) => data == null
-          ? []
-          : (data as List).map((v) => ProductModel.fromJson(v)).toList(),
-    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ерөнхий цэс'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await GetStorage().write('TOKEN', null);
+                GetStorage().save();
+                context.pushReplacement('/');
+              },
+              icon: const Text('гарах'))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
-          future: fetch<List<ProductModel>>(
-            '/admin/products',
+          future: fetch<List<Supply>>(
+            '/admin/supplies',
             decoder: (data) => data == null
                 ? []
-                : (data as List).map((v) => ProductModel.fromJson(v)).toList(),
+                : (data as List).map((v) => Supply.fromJson(v)).toList(),
           ),
           builder: (context, sn) {
             if (sn.connectionState == ConnectionState.waiting) {
@@ -57,49 +69,20 @@ class MenuPage extends StatelessWidget with Api {
               return const Column(
                 children: [
                   Text(
-                      "Бараа бүртгэлгүй байгаа тул ямар нэгэн бараа бүртгэхэл болждээ"),
+                      "Нийлүүлэлт бүртгэлгүй байна шинэ нийлүүлэлт үүсгэнэ үү"),
                 ],
               );
             }
-            state.addProductAll(sn.data as List<ProductModel>);
-            return Column(
-              children: [
-                Text(state.currentBranch?.name ?? ''),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () => context.go('/uldegdel'),
-                      child: const Text('Барааны үлдэгдэл')),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () => context.go('/counter'),
-                      child: const Text('Орлого хийх')),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () => context.go('/zarlaga'),
-                      child: const Text('Зарлага хийх')),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () => context.go('/products'),
-                      child: const Text('Орлого&Зарлага түүх')),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        await GetStorage().write('TOKEN', null);
-                        GetStorage().save();
-                        context.pushReplacement('/');
-                      },
-                      child: const Text('Системээс гарах')),
-                )
-              ],
+            var ss = sn.data as List<Supply>;
+            return ListView.builder(
+              itemCount: ss.length,
+              itemBuilder: (context, index) => ListTile(
+                onTap: () async {
+                  await context.push('/supply', extra: ss[index]);
+                  setState(() {});
+                },
+                title: Text(ss[index].name ?? ''),
+              ),
             );
           },
         ),

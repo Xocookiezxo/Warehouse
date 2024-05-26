@@ -59,19 +59,22 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\BranchHaveProductFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct filter(array $filters)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct query()
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct whereBranchId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct wherePcount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct whereRegType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BranchHaveProduct whereUserId($value)
+ * @method static Builder|BranchHaveProduct filter(array $filters)
+ * @method static Builder|BranchHaveProduct newModelQuery()
+ * @method static Builder|BranchHaveProduct newQuery()
+ * @method static Builder|BranchHaveProduct query()
+ * @method static Builder|BranchHaveProduct whereBranchId($value)
+ * @method static Builder|BranchHaveProduct whereCreatedAt($value)
+ * @method static Builder|BranchHaveProduct whereDescription($value)
+ * @method static Builder|BranchHaveProduct whereId($value)
+ * @method static Builder|BranchHaveProduct wherePcount($value)
+ * @method static Builder|BranchHaveProduct whereProductId($value)
+ * @method static Builder|BranchHaveProduct whereRegType($value)
+ * @method static Builder|BranchHaveProduct whereUpdatedAt($value)
+ * @method static Builder|BranchHaveProduct whereUserId($value)
+ * @property int $supply_id Нийлүүлэлт
+ * @method static Builder|BranchHaveProduct whereSupplyId($value)
+ * @mixin \Eloquent
  */
 	class BranchHaveProduct extends \Eloquent {}
 }
@@ -205,6 +208,70 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * Class Supply
+ *
+ * @package App\Models
+ * @version May 26, 2024, 6:51 pm UTC
+ * @property \Illuminate\Database\Eloquent\Collection $supplyProducts
+ * @property string $name нийлүүлэлтийн нэр
+ * @property string $status төрөв
+ * @property string $description Тайлбар
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\SupplyFactory factory($count = null, $state = [])
+ * @method static Builder|Supply filter(array $filters)
+ * @method static Builder|Supply newModelQuery()
+ * @method static Builder|Supply newQuery()
+ * @method static Builder|Supply query()
+ * @method static Builder|Supply whereCreatedAt($value)
+ * @method static Builder|Supply whereDescription($value)
+ * @method static Builder|Supply whereId($value)
+ * @method static Builder|Supply whereName($value)
+ * @method static Builder|Supply whereStatus($value)
+ * @method static Builder|Supply whereUpdatedAt($value)
+ * @property-read int|null $supply_products_count
+ * @mixin \Eloquent
+ */
+	class Supply extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * Class SupplyProduct
+ *
+ * @package App\Models
+ * @version May 26, 2024, 6:51 pm UTC
+ * @property \App\Models\Product $product
+ * @property \App\Models\Supply $supply
+ * @property integer $supply_id Нийлүүлэлт
+ * @property integer $product_id Бүтээгдэхүүн
+ * @property integer $expected_count тоо
+ * @property integer $pcount тоо
+ * @property string $description Тайлбар
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\SupplyProductFactory factory($count = null, $state = [])
+ * @method static Builder|SupplyProduct filter(array $filters)
+ * @method static Builder|SupplyProduct newModelQuery()
+ * @method static Builder|SupplyProduct newQuery()
+ * @method static Builder|SupplyProduct query()
+ * @method static Builder|SupplyProduct whereCreatedAt($value)
+ * @method static Builder|SupplyProduct whereDescription($value)
+ * @method static Builder|SupplyProduct whereExpectedCount($value)
+ * @method static Builder|SupplyProduct whereId($value)
+ * @method static Builder|SupplyProduct wherePcount($value)
+ * @method static Builder|SupplyProduct whereProductId($value)
+ * @method static Builder|SupplyProduct whereSupplyId($value)
+ * @method static Builder|SupplyProduct whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	class SupplyProduct extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id
@@ -246,6 +313,12 @@ namespace App\Models{
  * @property string $position
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePosition($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
+ * @property string|null $register Регистр
+ * @property string $ovog Овог
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereOvog($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRegister($value)
+ * @property int $branch_id Салбар
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBranchId($value)
  * @mixin \Eloquent
  */
 	class User extends \Eloquent {}
@@ -256,10 +329,15 @@ namespace App\Models{
  * Class UserModel
  *
  * @package App\Models
- * @version May 23, 2024, 3:09 am UTC
+ * @version May 26, 2024, 6:04 pm UTC
+ * @property \App\Models\Branch $branch
+ * @property \Illuminate\Database\Eloquent\Collection $brancheHaveProducts
+ * @property string $register Регистр
+ * @property string $ovog Овог
  * @property string $name Нэр
+ * @property integer $branch_id Салбар
  * @property string $phone Утас
- * @property string $username Нэр
+ * @property string $username Нэвтрэх нэр
  * @property string $password Нууц үг
  * @property string $roles Эрхийн түвшин
  * @property string $remember_token
@@ -273,13 +351,16 @@ namespace App\Models{
  * @method static Builder|UserModel newModelQuery()
  * @method static Builder|UserModel newQuery()
  * @method static Builder|UserModel query()
+ * @method static Builder|UserModel whereBranchId($value)
  * @method static Builder|UserModel whereCreatedAt($value)
  * @method static Builder|UserModel whereDeletedAt($value)
  * @method static Builder|UserModel whereId($value)
  * @method static Builder|UserModel whereName($value)
+ * @method static Builder|UserModel whereOvog($value)
  * @method static Builder|UserModel wherePassword($value)
  * @method static Builder|UserModel wherePhone($value)
  * @method static Builder|UserModel wherePushToken($value)
+ * @method static Builder|UserModel whereRegister($value)
  * @method static Builder|UserModel whereRememberToken($value)
  * @method static Builder|UserModel whereRoles($value)
  * @method static Builder|UserModel whereUpdatedAt($value)

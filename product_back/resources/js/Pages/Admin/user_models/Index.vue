@@ -43,10 +43,12 @@ const props = defineProps({
 const title = 'User Models жагсаалт'
 
 const headers = [
+  { key: 'register', name: 'Регистр', order: 'register' },
+  { key: 'ovog', name: 'Овог', order: 'ovog' },
   { key: 'name', name: 'Нэр', order: 'name' },
+  { key: 'branch.name', name: 'Салбар', order: 'branch_id', url: '/admin/branches' },
   { key: 'phone', name: 'Утас', order: 'phone' },
-  { key: 'username', name: 'Нэр', order: 'username' },
-
+  { key: 'username', name: 'Нэвтрэх нэр', order: 'username' },
   { key: 'roles', name: 'Эрхийн түвшин', order: 'roles' },
 
 ]

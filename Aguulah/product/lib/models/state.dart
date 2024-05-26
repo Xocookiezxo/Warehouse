@@ -12,7 +12,6 @@ class StateModel extends ChangeNotifier {
 
   StateModel(Settings setting) {
     _user = setting.user;
-    _currentBranch = setting.branch;
   }
 
   UserModel? get user => _user;

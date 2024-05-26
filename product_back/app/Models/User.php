@@ -50,6 +50,12 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $position
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePosition($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
+ * @property string|null $register Регистр
+ * @property string $ovog Овог
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereOvog($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRegister($value)
+ * @property int $branch_id Салбар
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBranchId($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -97,8 +103,8 @@ class User extends Authenticatable
      */
     public static $rules = [
         'name' => 'required|string|max:255',
-        'phone' => 'required|string|max:255|unique:users,phone',
-        'username' => 'nullable|string|max:255',
+        'phone' => 'required|string|max:255',
+        'username' => 'nullable|string|max:255|unique:users,phone',
         'password' => 'required|string|max:255',
         'roles' => 'required|string|max:255',
         'remember_token' => 'nullable|string|max:100',

@@ -11,10 +11,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * Class UserModel
  *
  * @package App\Models
- * @version May 23, 2024, 3:09 am UTC
+ * @version May 26, 2024, 6:04 pm UTC
+ * @property \App\Models\Branch $branch
+ * @property \Illuminate\Database\Eloquent\Collection $brancheHaveProducts
+ * @property string $register Регистр
+ * @property string $ovog Овог
  * @property string $name Нэр
+ * @property integer $branch_id Салбар
  * @property string $phone Утас
- * @property string $username Нэр
+ * @property string $username Нэвтрэх нэр
  * @property string $password Нууц үг
  * @property string $roles Эрхийн түвшин
  * @property string $remember_token
@@ -28,13 +33,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|UserModel newModelQuery()
  * @method static Builder|UserModel newQuery()
  * @method static Builder|UserModel query()
+ * @method static Builder|UserModel whereBranchId($value)
  * @method static Builder|UserModel whereCreatedAt($value)
  * @method static Builder|UserModel whereDeletedAt($value)
  * @method static Builder|UserModel whereId($value)
  * @method static Builder|UserModel whereName($value)
+ * @method static Builder|UserModel whereOvog($value)
  * @method static Builder|UserModel wherePassword($value)
  * @method static Builder|UserModel wherePhone($value)
  * @method static Builder|UserModel wherePushToken($value)
+ * @method static Builder|UserModel whereRegister($value)
  * @method static Builder|UserModel whereRememberToken($value)
  * @method static Builder|UserModel whereRoles($value)
  * @method static Builder|UserModel whereUpdatedAt($value)
@@ -57,7 +65,10 @@ class UserModel extends Model
 
 
     public $fillable = [
+        'register',
+        'ovog',
         'name',
+        'branch_id',
         'phone',
         'username',
         'password',
@@ -73,7 +84,10 @@ class UserModel extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'register' => 'string',
+        'ovog' => 'string',
         'name' => 'string',
+        'branch_id' => 'integer',
         'phone' => 'string',
         'username' => 'string',
         'password' => 'string',
@@ -88,7 +102,10 @@ class UserModel extends Model
      * @var array
      */
     public static $rules = [
+        'register' => 'nullable|string|max:255',
+        'ovog' => 'required|string|max:255',
         'name' => 'required|string|max:255',
+        'branch_id' => 'required',
         'phone' => 'nullable|string|max:255',
         'username' => 'nullable|string|max:255',
         'password' => 'required|string|max:255',
@@ -100,13 +117,30 @@ class UserModel extends Model
         'deleted_at' => 'nullable'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function branch()
+    {
+        return $this->belongsTo(\App\Models\Branch::class, 'branch_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function brancheHaveProducts()
+    {
+        return $this->hasMany(\App\Models\BrancheHaveProduct::class, 'user_id');
+    }
 
     /**
      * @var array
      */
     public static $searchIn = [
+        'register',
+        'ovog',
         'name',
+        'branch_id',
         'phone',
         'username',
         'password',

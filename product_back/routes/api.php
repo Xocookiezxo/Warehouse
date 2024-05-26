@@ -26,36 +26,46 @@ Route::post('/signup', [App\Http\Controllers\API\UserAPIController::class, 'stor
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('user_models', App\Http\Controllers\API\UserAPIController::class)->names('api.user_models');
-});
 
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('user_models', App\Http\Controllers\API\UserModelAPIController::class);
-});
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('user_models', App\Http\Controllers\API\UserModelAPIController::class);
+    });
 
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('product_categories', App\Http\Controllers\API\ProductCategoryAPIController::class);
-});
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('product_categories', App\Http\Controllers\API\ProductCategoryAPIController::class);
+    });
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('providers', App\Http\Controllers\API\ProviderAPIController::class);
-});
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('providers', App\Http\Controllers\API\ProviderAPIController::class);
+    });
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('/uldegdel/{branch_id}', [App\Http\Controllers\API\ProductAPIController::class, 'uldegdel']);
-    Route::resource('products', App\Http\Controllers\API\ProductAPIController::class);
-});
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/uldegdel/{branch_id}', [App\Http\Controllers\API\ProductAPIController::class, 'uldegdel']);
+        Route::resource('products', App\Http\Controllers\API\ProductAPIController::class);
+    });
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('branches', App\Http\Controllers\API\BranchAPIController::class);
-});
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('branches', App\Http\Controllers\API\BranchAPIController::class);
+    });
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('branch_have_products', App\Http\Controllers\API\BranchHaveProductAPIController::class);
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('branch_have_products', App\Http\Controllers\API\BranchHaveProductAPIController::class);
+    });
+
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::put('/supplies/{branch_id}/done', [App\Http\Controllers\API\SupplyAPIController::class, 'done']);
+        Route::resource('supplies', App\Http\Controllers\API\SupplyAPIController::class);
+    });
+
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('supply_products', App\Http\Controllers\API\SupplyProductAPIController::class);
+    });
 });

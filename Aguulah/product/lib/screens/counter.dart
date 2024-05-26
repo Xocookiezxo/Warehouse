@@ -7,20 +7,28 @@ import 'package:product/common/future_alert_dialog.dart';
 import 'package:product/models/branch_have_product.dart';
 import 'package:product/models/product.dart';
 import 'package:product/models/state.dart';
+import 'package:product/models/supply.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class CounterPage extends StatefulWidget {
-  const CounterPage({super.key});
+  final Supply sup;
+  const CounterPage({super.key, required this.sup});
 
   @override
   State<CounterPage> createState() => _CounterPageState();
 }
 
 class _CounterPageState extends State<CounterPage> with Api {
-  ProductModel? product;
+  SupplyProducts? supplyProducts;
   var barController = TextEditingController();
-  int count = 1;
+  late Iterable<ProductModel> products;
+
+  @override
+  void initState() {
+    products = widget.sup.supplyProducts!.map((e) => e.product!);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +36,29 @@ class _CounterPageState extends State<CounterPage> with Api {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Орлого"),
+        title: const Text("Тоололго"),
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              count.toString(),
-              style: const TextStyle(fontSize: 40, color: Colors.green),
+              widget.sup.name ?? '',
+              style: const TextStyle(fontSize: 14),
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("Aвах ", style: TextStyle(fontSize: 16)),
+                Text(
+                  "${supplyProducts?.expectedCount?.toString() ?? '0'} / ${supplyProducts?.pcount ?? 0}",
+                  style: const TextStyle(fontSize: 20, color: Colors.green),
+                ),
+                const Text(" Aвсан", style: TextStyle(fontSize: 16)),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -46,7 +68,7 @@ class _CounterPageState extends State<CounterPage> with Api {
                   const Text("Бар код: ",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.w800)),
-                  Text(product?.barcode ?? "",
+                  Text(supplyProducts?.product?.barcode ?? "",
                       style: const TextStyle(fontSize: 12)),
                 ],
               ),
@@ -59,7 +81,7 @@ class _CounterPageState extends State<CounterPage> with Api {
                   const Text("Нэр: ",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.w800)),
-                  Text(product?.name ?? "",
+                  Text(supplyProducts?.product?.name ?? "",
                       style: const TextStyle(fontSize: 12)),
                 ],
               ),
@@ -72,7 +94,7 @@ class _CounterPageState extends State<CounterPage> with Api {
                   const Text("Үнэ: ",
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.w800)),
-                  Text(product?.price?.toString() ?? "",
+                  Text(supplyProducts?.product?.price?.toString() ?? "",
                       style: const TextStyle(fontSize: 12)),
                 ],
               ),
@@ -88,14 +110,17 @@ class _CounterPageState extends State<CounterPage> with Api {
                   if (res is String) {
                     barController.text = res;
                     if (res != '-1') {
-                      var p = state.products
-                          .where((element) => element.barcode == res);
+                      var p =
+                          products.where((element) => element.barcode == res);
                       if (p.isEmpty) {
+                        supplyProducts = null;
                         var snackBar = const SnackBar(
                             content: Text("Бүртгэлгүй бар код байна"));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
-                        product = p.first;
+                        supplyProducts = supplyProducts =
+                            widget.sup.supplyProducts?.firstWhere(
+                                (element) => element.productId == p.first.id);
                       }
                     }
                   }
@@ -113,57 +138,60 @@ class _CounterPageState extends State<CounterPage> with Api {
                 autovalidateMode: AutovalidateMode.always,
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                  var p = state.products
-                      .where((element) => element.barcode == value);
+                  var p = products.where((element) => element.barcode == value);
                   if (p.isEmpty) {
-                    return 'Баркод буруу';
+                    return 'Нийлүүлэлтэд бүртгэлгүй баркоп';
                   }
                   return null;
                 },
                 onChanged: (value) {
                   setState(() {
                     barController.text = value;
-                    var p = state.products
-                        .where((element) => element.barcode == value);
+                    var p =
+                        products.where((element) => element.barcode == value);
                     if (p.isNotEmpty) {
-                      product = p.first;
+                      supplyProducts = widget.sup.supplyProducts?.firstWhere(
+                          (element) => element.productId == p.first.id);
+                    } else {
+                      supplyProducts = null;
                     }
                   });
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                initialValue: count.toString(),
-                autovalidateMode: AutovalidateMode.always,
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (int.tryParse(value ?? '') == null) {
-                    return 'тоо оруулна уу';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Тоо',
-                  labelText: "Тоо ширхэг",
+            if (supplyProducts != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  initialValue: (supplyProducts?.pcount ?? 0).toString(),
+                  autovalidateMode: AutovalidateMode.always,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (int.tryParse(value ?? '') == null) {
+                      return 'тоо оруулна уу';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Тоо',
+                    labelText: "Тоо ширхэг",
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      supplyProducts?.pcount = int.tryParse(value) ?? 0;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    count = int.tryParse(value) ?? 0;
-                  });
-                },
               ),
-            ),
             ElevatedButton(
               onPressed: () async {
-                if (product == null) {
+                if (supplyProducts == null) {
                   var snackBar = const SnackBar(
                       content: Text("Бүртээгдэхүүн согноогүй байна"));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   return;
                 }
-                if (count < 1) {
+                if ((supplyProducts?.pcount ?? 0) < 1) {
                   var snackBar = const SnackBar(
                       content: Text("Бүтээндэхүүн ны тоо 0 ээс их байна"));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -173,27 +201,20 @@ class _CounterPageState extends State<CounterPage> with Api {
                   context: context,
                   autoCloseSec: 0,
                   futureStream: fetch(
-                    '/admin/branch_have_products',
-                    method: 'POST',
-                    decoder: (data) => BranchHaveProduct.fromJson(data),
-                    body: BranchHaveProduct(
-                      userId: state.user!.id,
-                      branchId: state.currentBranch!.id,
-                      pcount: count,
-                      productId: product!.id,
-                      regType: "Oрлого",
-                    ).toJson(),
+                    '/admin/supply_products/${supplyProducts!.id}',
+                    method: 'Put',
+                    decoder: (data) => SupplyProducts.fromJson(data),
+                    body: supplyProducts!.toJson(),
                   ),
                 );
                 if (res != null) {
                   setState(() {
-                    barController.text = "";
-                    count = 1;
+                    supplyProducts = null;
                   });
                   context.pop();
                 }
               },
-              child: const Text('Орлого бүртгэх'),
+              child: const Text('Тоолого бүртгэх'),
             ),
           ],
         ),

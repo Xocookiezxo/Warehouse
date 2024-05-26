@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Provider;
+use App\Models\Supply;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProviderFactory extends Factory
+class SupplyFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Provider::class;
+    protected $model = Supply::class;
 
     /**
      * Define the model's default state.
@@ -23,11 +23,10 @@ class ProviderFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'contact' => $this->faker->word,
-            'address' => $this->faker->word,
-            'description' => $this->faker->text,
-            'created_at' => $this->faker->date('Y-m-d H:i:s'),
-            'updated_at' => $this->faker->date('Y-m-d H:i:s')
+        'status' => $this->faker->word,
+        'description' => $this->faker->text,
+        'created_at' => $this->faker->date('Y-m-d H:i:s'),
+        'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

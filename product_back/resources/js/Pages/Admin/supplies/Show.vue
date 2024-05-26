@@ -2,9 +2,9 @@
   <Layout :title="title">
     <div>
       <h1>
-        <BackButton href="/admin/product_categories" />{{ title }}
-        <ILink class="float-right ml-4 btn btn-warning" :href="`/admin/product_categories/${data.id}/edit`">Засах</ILink>
-        <DestroyButton :href="'/admin/product_categories/' + props.data.id" class="float-right">Устгах</DestroyButton>
+        <BackButton href="/admin/supplies" />{{ title }}
+        <ILink class="float-right ml-4 btn btn-warning" :href="`/admin/supplies/${data.id}/edit`">Засах</ILink>
+        <DestroyButton :href="'/admin/supplies/' + props.data.id" class="float-right">Устгах</DestroyButton>
       </h1>
       <div class="show-grid">
         <InputLabel v-for="item in fields" :key="item.label" v-bind="item" class="border-b border-dashed" />
@@ -23,11 +23,12 @@ const props = defineProps({
   data: [Object],
 });
 
-const title = 'Барааны лавлах бүртгэл  дэлгэрэнгүй'
+const title = 'Supplies дэлгэрэнгүй'
 
 const fields = [
   { label: 'id', value: props.data.id },
-  { label: 'Код', value: props.data.name },
+  { label: 'нийлүүлэлтийн нэр', value: props.data.name },
+  { label: 'төрөв', value: props.data.status },
   { label: 'Тайлбар', value: props.data.description },
   { label: 'created_at', value: props.data.created_at },
   { label: 'updated_at', value: props.data.updated_at }

@@ -1,7 +1,9 @@
 <template>
   <Layout :title="title">
     <div>
-      <h1><BackButton href="/admin/product_categories" />{{ title }}</h1>
+      <h1>
+        <BackButton href="/admin/product_categories" />{{ title }}
+      </h1>
       <Fields :data="data" @save="submit"></Fields>
     </div>
   </Layout>
@@ -12,7 +14,7 @@ import Layout from "@/Layouts/AdminLayout.vue";
 import BackButton from '@/Components/BackButton.vue';
 import Fields from "./Fields.vue";
 
-const title = 'Product Categories Үүсгэх'
+const title = 'Барааны лавлах бүртгэл  Үүсгэх'
 
 
 defineProps({
@@ -21,7 +23,7 @@ defineProps({
 
 const submit = (form) => {
   form.post('/admin/product_categories', {
-    headers: { back: new URLSearchParams(window.location.search).get("callback")},
+    headers: { back: new URLSearchParams(window.location.search).get("callback") },
     preserveScroll: true,
     replace: true,
     onSuccess: () => form.reset(),

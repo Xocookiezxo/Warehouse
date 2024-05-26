@@ -1,9 +1,7 @@
 <template>
   <Layout :title="title">
     <div>
-      <h1>
-        <BackButton href="/admin/product_categories" />{{ title }}
-      </h1>
+      <h1><BackButton href="/admin/supplies" />{{ title }}</h1>
       <Fields :data="data" @save="submit"></Fields>
     </div>
   </Layout>
@@ -14,7 +12,7 @@ import Layout from "@/Layouts/AdminLayout.vue";
 import BackButton from '@/Components/BackButton.vue';
 import Fields from "./Fields.vue";
 
-const title = 'Барааны лавлах бүртгэл  Засах'
+const title = 'Supplies Засах'
 
 const props = defineProps({
   data: [Object],
@@ -26,8 +24,8 @@ const props = defineProps({
  * @param {import("@inertiajs/vue3").InertiaForm} form - inertia form.
  */
 const submit = (form) => {
-  form.put('/admin/product_categories/' + props.data.id, {
-    headers: { back: new URLSearchParams(window.location.search).get("callback") },
+  form.put('/admin/supplies/'+props.data.id, {
+    headers: { back: new URLSearchParams(window.location.search).get("callback")},
     preserveScroll: true,
     replace: true,
     onSuccess: () => form.reset(),
@@ -36,3 +34,4 @@ const submit = (form) => {
   });
 };
 </script>
+
